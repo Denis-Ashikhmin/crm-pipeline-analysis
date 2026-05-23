@@ -54,7 +54,7 @@ least 90 days to close.
 | Jul 2017 | 55.4% |
 
 Win rate dropped by ~26 percentage points over 9 months while deal volume grew
-170x. The data suggests the company prioritized pipeline growth over lead quality -
+170x. The data suggests the company prioritized pipeline growth over lead quality —
 more deals entered the funnel than the team could effectively close.
 
 ### 2. End-of-year stuck deals likely reflect customer decision delays

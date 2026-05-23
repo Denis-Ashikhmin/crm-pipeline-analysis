@@ -1,0 +1,9 @@
+SELECT
+    deal_stage,
+    COUNT(*) AS deal_count,
+	ROUND(AVG(cycle_days), 1) AS avg_cycle_days,
+	MAX(cycle_days) AS max_cycle_days,
+	MIN(cycle_days) AS min_cycle_days
+FROM pipeline_enriched 
+WHERE deal_status!='Open'
+GROUP BY deal_stage;

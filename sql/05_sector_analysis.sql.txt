@@ -1,0 +1,12 @@
+SELECT
+    sector,
+	COUNT(*) AS total_closed,
+	SUM(CASE WHEN deal_stage='Won' THEN 1 ELSE 0 END) AS won,
+	ROUND(100.0 * SUM(CASE WHEN deal_stage='Won' THEN 1 ELSE 0 END)/NULLIF(COUNT(*), 0), 1) AS win_rate_pct,
+	ROUND(AVG(CASE WHEN deal_stage='Won' THEN close_value END), 1) AS avg_deal_value,
+	ROUND(SUM(CASE WHEN deal_stage='Won' THEN close_value END), 1) AS total_revenue,
+	ROUND(AVG(CASE WHEN deal_stage='Won' THEN employees END), 1) AS avg_company_size
+FROM pipeline_enriched
+WHERE deal_status='Closed'
+GROUP BY sector
+ORDER BY total_revenue DESC;

@@ -1,0 +1,15 @@
+SELECT
+    COUNT(*) AS total_deals,
+    strftime('%Y-%m', engage_date) AS cohort_month,
+	SUM(CASE WHEN deal_stage='Won' THEN 1 ELSE 0 END) AS won,
+	SUM(CASE WHEN deal_stage='Lost' THEN 1 ELSE 0 END) AS lost,
+	SUM(CASE WHEN deal_stage='Engaging' THEN 1 ELSE 0 END) AS still_engaging,
+	ROUND(100.0 * SUM(CASE WHEN deal_status='Closed' AND deal_stage='Won' THEN 1 END)/NULLIF(SUM(CASE WHEN deal_status='Closed' THEN 1 END), 0), 1) AS win_rate_closed,
+	ROUND(100.0 * SUM(CASE WHEN deal_stage IN('Prospecting', 'Engaging') THEN 1 ELSE 0 END)/COUNT(*), 0) AS pending_deals,
+	CASE WHEN ROUND(100.0 * SUM(CASE WHEN deal_stage IN('Prospecting', 'Engaging') THEN 1 ELSE 0 END)/COUNT(*), 0)>15 THEN 'ANOMALY'
+	WHEN ROUND(100.0 * SUM(CASE WHEN deal_stage IN('Prospecting', 'Engaging') THEN 1 ELSE 0 END)/COUNT(*), 0)>8 AND ROUND(100.0 * SUM(CASE WHEN deal_stage IN('Prospecting', 'Engaging') THEN 1 ELSE 0 END)/COUNT(*), 0)<=15 THEN 'Watch'
+	ELSE 'Healthy' END AS anomaly_flag
+FROM pipeline_enriched
+WHERE cohort_maturity='Mature'
+GROUP BY cohort_month
+ORDER BY cohort_month;

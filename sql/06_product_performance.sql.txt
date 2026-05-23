@@ -1,0 +1,11 @@
+SELECT
+    product,
+    series,
+	sales_price,
+	COUNT(*) AS total_closed,
+	ROUND(100.0 * SUM(CASE WHEN deal_stage='Won' THEN 1 ELSE 0 END)/NULLIF(COUNT(*), 0), 1) AS win_rate_pct,
+	ROUND(AVG(CASE WHEN deal_stage='Won' THEN close_value END), 1) AS avg_close_value,
+	ROUND(AVG(CASE WHEN deal_stage='Won' THEN price_variance_pct END), 1) AS avg_price_variance_pct
+FROM pipeline_enriched
+WHERE deal_status='Closed'
+GROUP BY product, series, sales_price;

@@ -1,0 +1,32 @@
+WITH agent_stats AS(SELECT 
+    sales_agent,
+	manager,
+	regional_office,
+    COUNT(*) AS total_deals,
+	SUM(CASE WHEN deal_stage='Won' THEN 1 ELSE 0 END) AS won_deals,
+	ROUND(100.0 * SUM(CASE WHEN deal_stage='Won' THEN 1 ELSE 0 END)/COUNT(*), 1) AS win_rate_pct,
+	ROUND(SUM(CASE WHEN deal_stage='Won' THEN close_value ELSE 0 END), 1) AS total_revenue,
+	ROUND(AVG(cycle_days), 1) AS avg_cycle_days
+FROM pipeline_enriched
+WHERE deal_status='Closed'
+GROUP BY sales_agent, manager, regional_office
+),
+manager_avg AS (SELECT
+    manager,
+	ROUND(AVG(win_rate_pct), 1) AS manager_avg_win_rate
+FROM agent_stats
+GROUP BY manager)
+SELECT
+    a.sales_agent,
+	a.manager,
+	a.regional_office,
+	a.total_deals,
+	a.won_deals,
+	a.win_rate_pct,
+	m.manager_avg_win_rate,
+	ROUND(a.win_rate_pct-m.manager_avg_win_rate, 1) AS vs_team_avg,
+	a.total_revenue,
+	a.avg_cycle_days
+FROM agent_stats a
+LEFT JOIN manager_avg m ON a.manager=m.manager
+ORDER BY a.win_rate_pct DESC;

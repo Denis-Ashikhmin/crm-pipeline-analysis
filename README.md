@@ -17,7 +17,7 @@ into where and why deals were being lost, the business had no way to course-corr
 This project answers three questions:
 
 1. Is the pipeline healthy, and where are deals getting stuck?
-2. Which agents and managers are underperforming — and is it a people problem or a systemic one?
+2. Which agents and managers are underperforming, and is it a people problem or a systemic one?
 3. Which products and customer segments drive the most revenue?
 
 ---

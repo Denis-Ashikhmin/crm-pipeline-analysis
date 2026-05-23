@@ -3,7 +3,7 @@
 A SQL-based analysis of 8,800 B2B sales deals to identify pipeline health issues,
 performance gaps, and revenue risk across agents, products, and customer segments.
 
-**Tools:** SQLite · DB Browser · Google Sheets · Data Studio (Looker Studio  )
+**Tools:** SQLite · DB Browser · Google Sheets · Data Studio (Looker Studio)
 **Data:** [Maven Analytics — CRM Sales Opportunities](https://mavenanalytics.io/data-playground/crm-sales-opportunities)
 
 ---
